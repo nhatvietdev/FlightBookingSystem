@@ -1,9 +1,10 @@
-﻿using System.Reflection;
-using FlightBookingSystem.Domain.Bookings;
+﻿using FlightBookingSystem.Domain.Bookings;
 using FlightBookingSystem.Domain.Common;
 using FlightBookingSystem.Domain.Events;
 using FlightBookingSystem.Domain.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace FlightBookingSystem.Infrastructure.Persistence;
 
@@ -44,6 +45,7 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        builder.HasDefaultSchema("public");
     }
 
     private IReadOnlyList<IDomainEvent> CollectDomainEvents()
