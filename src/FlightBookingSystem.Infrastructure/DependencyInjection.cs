@@ -15,10 +15,9 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
-
         var connectionString = configuration.GetConnectionString("PostgreSQL")
             ?? configuration.GetConnectionString("Postgress");
+
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(
                 connectionString,
@@ -26,6 +25,9 @@ public static class DependencyInjection
 
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+        services.AddScoped<IDomainEventDispatcher, NoOpDomainEventDispatcher>();
 
         return services;
     }
