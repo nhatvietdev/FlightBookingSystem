@@ -1,4 +1,4 @@
-﻿using FlightBookingSystem.Domain.Bookings;
+﻿using FlightBookingSystem.Domain.Entities.Bookings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,10 +1,7 @@
-﻿using FlightBookingSystem.Domain.Bookings;
-using FlightBookingSystem.Domain.Common;
-using FlightBookingSystem.Domain.Events;
-using FlightBookingSystem.Domain.Interface;
+﻿using FlightBookingSystem.Domain.Common.Interface;
+using FlightBookingSystem.Domain.Entities.Bookings;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace FlightBookingSystem.Infrastructure.Persistence;
 
@@ -21,17 +18,16 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Booking> Bookings { get; set; }
 
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        return SaveChangesAsync(acceptAllChangesOnSuccess, CancellationToken.None).GetAwaiter().GetResult();
-    }
+        var domainEvents = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is IAggregateRoot)
+            .SelectMany(e => ((IAggregateRoot)e.Entity).DomainEvents)
+            .ToList();
 
-    public override async Task<int> SaveChangesAsync(
-        bool acceptAllChangesOnSuccess,
-        CancellationToken cancellationToken = default)
-    {
-        var domainEvents = CollectDomainEvents();
         var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
         if (domainEvents.Count > 0)
         {
             await _domainEventDispatcher.DispatchAsync(domainEvents, cancellationToken);
@@ -48,19 +44,14 @@ public class ApplicationDbContext : DbContext
         builder.HasDefaultSchema("public");
     }
 
-    private IReadOnlyList<IDomainEvent> CollectDomainEvents()
-    {
-        return ChangeTracker
-            .Entries<AggregateRoot>()
-            .SelectMany(e => e.Entity.DomainEvents)
-            .ToList();
-    }
-
     private void ClearDomainEvents()
     {
-        foreach (var entry in ChangeTracker.Entries<AggregateRoot>())
+        foreach (var entry in ChangeTracker.Entries())
         {
-            entry.Entity.ClearDomainEvents();
+            if (entry.Entity is IAggregateRoot aggregate)
+            {
+                aggregate.ClearDomainEvents();
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace FlightBookingSystem.Domain.Common;
 
-public class BaseAuditableEntity
+public abstract class BaseAuditableEntity
 {
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; }
 
     public string? CreatedBy { get; set; }
 
