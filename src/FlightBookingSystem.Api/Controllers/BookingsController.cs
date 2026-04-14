@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlightBookingSystem.Api.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class BookingsController : ControllerBase
+public class BookingsController : ApiControllerBase
 {
     private readonly IMediator _mediator;
 

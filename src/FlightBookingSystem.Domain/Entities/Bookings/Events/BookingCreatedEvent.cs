@@ -1,4 +1,4 @@
-﻿using FlightBookingSystem.Domain.Events;
+﻿using FlightBookingSystem.Domain.Common;
 
 namespace FlightBookingSystem.Domain.Entities.Bookings.Events;
 
