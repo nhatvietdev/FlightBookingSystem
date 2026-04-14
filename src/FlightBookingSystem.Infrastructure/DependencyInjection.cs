@@ -1,11 +1,11 @@
-﻿using FlightBookingSystem.Domain.Interface;
-using FlightBookingSystem.Infrastructure.Events;
-using FlightBookingSystem.Infrastructure.Persistence;
+﻿using FlightBookingSystem.Infrastructure.Persistence;
 using FlightBookingSystem.Infrastructure.Repositories;
-using FlightBookingSystem.Infrastructure.Service;
+using FlightBookingSystem.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FlightBookingSystem.Domain.Common.Interface;
+using FlightBookingSystem.Application.Common.Interface.Repositories;
 
 namespace FlightBookingSystem.Infrastructure;
 
@@ -23,11 +23,10 @@ public static class DependencyInjection
                 connectionString,
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-        services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
 
-        services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
-        services.AddScoped<IDomainEventDispatcher, NoOpDomainEventDispatcher>();
+        services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
 
         return services;
     }

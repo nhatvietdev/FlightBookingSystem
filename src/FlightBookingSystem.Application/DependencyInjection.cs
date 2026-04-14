@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using FlightBookingSystem.Application.Behaviors;
+using FlightBookingSystem.Application.Common.Behaviors;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

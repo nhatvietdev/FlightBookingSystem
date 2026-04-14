@@ -1,8 +1,8 @@
-using FlightBookingSystem.Domain.Events;
+using FlightBookingSystem.Domain.Common.Interface;
 
 namespace FlightBookingSystem.Domain.Common;
 
-public abstract class AggregateRoot : BaseEntity
+public abstract class AggregateRoot<TKey> : BaseEntity<TKey>, IAggregateRoot
 {
     private readonly List<IDomainEvent> _domainEvents = new();
 

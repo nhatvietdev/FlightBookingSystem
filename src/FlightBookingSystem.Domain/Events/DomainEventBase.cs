@@ -1,4 +1,6 @@
-﻿namespace FlightBookingSystem.Domain.Events;
+﻿using FlightBookingSystem.Domain.Common.Interface;
+
+namespace FlightBookingSystem.Domain.Events;
 
 public abstract record DomainEventBase : IDomainEvent
 {

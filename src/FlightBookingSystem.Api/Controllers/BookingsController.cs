@@ -1,5 +1,5 @@
-﻿using FlightBookingSystem.Application.Bookings.Commannd.CreateBooking;
-using FlightBookingSystem.Application.Bookings.Queries.GetBookingById;
+﻿using FlightBookingSystem.Application.Features.Bookings.Commannd.CreateBooking;
+using FlightBookingSystem.Application.Features.Bookings.Queries.GetBookingById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
