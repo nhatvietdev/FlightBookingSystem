@@ -20,8 +20,4 @@
     <ProjectReference Include="..\FlightBookingSystem.Application\FlightBookingSystem.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
-
 </Project>

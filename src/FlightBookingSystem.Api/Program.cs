@@ -1,5 +1,7 @@
 using FlightBookingSystem.Api.ExceptionHandlers;
+using FlightBookingSystem.Api.Service;
 using FlightBookingSystem.Application;
+using FlightBookingSystem.Application.Common.Interface;
 using FlightBookingSystem.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+
+builder.Services.AddScoped<IUser, CurrentUser>();
 
 var app = builder.Build();
 
